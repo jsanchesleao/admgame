@@ -15,6 +15,8 @@
 (defn with-db [func]
   (func (:db @conn)))
 
-(defn insert-document []
-  (mc/insert-and-return (:db @conn) "documents" {:foo "bar"}))
+(defn insert-document [collection document]
+  (mc/insert-and-return (:db @conn) collection document))
   
+(defn find-one [collection query]
+  (mc/find-one-as-map (:db @conn) collection query))

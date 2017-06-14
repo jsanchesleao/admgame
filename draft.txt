@@ -1,0 +1,49 @@
+tutor
+{
+  "username": "fulano",
+  "password": "somehash",
+  "fullname": "Fulano de Tal"
+}
+
+game
+{
+  "key": "my-first-game",
+  "title": "My First Game",
+  "startDate": "2017-06-15",
+  "closeDate": null,
+  "tutor": "fulano",
+  "teams": [{
+    "key": "delta-kappa",
+    "name": "Delta Kappa",
+    "password": "somehash",
+    "stock": {
+      "product": 10,
+      "wrapper": 20
+    }
+    "cash": 300
+  }]
+}
+
+log
+{
+  "game": "my-first-game",
+  "tutor": "fulano",
+  "actions": [
+    {
+      "type": "GAME_STARTED",
+      "config": {"cash": 300, "productPrice": 10, "wrapperPrice": 2, "demand": 450},
+      "date": "2017-06-15 12:00:00"
+    },
+    {"type": "TEAM_BUY_PRODUCT", "team": "delta-kappa", "amount": 20, "offer": 12, "date": "2017-06-15 12:10:00"},
+    {"type": "TEAM_BUY_WRAPPER", "team": "delta-kappa", "amount": 20, "offer": 5, "date": "2017-06-15 12:11:00"},
+    {"type": "TEAM_SELL_PRODUCT", "team": "delta-kappa", "price": 22, "date": "2017-06-15 12:12:00"},
+    {"type": "CYCLE_ENDED", "date": "2017-06-15 12:00:00"},
+    {
+      "type": "CYCLE_STARTED",
+      "config": {
+        "demandIncrease": 10
+      }
+    },
+    {"type": "GAME_ENDED", "date": "2017-06-15 12:10:00"}
+  ]
+}
