@@ -3,8 +3,12 @@
             [compojure.route :as route]
             [ring.util.response :as resp]
             [admgame.api.tutor-api :as tutor]
-            [admgame.exception-handler :refer [wrap-exception-handling]]
-            [ring.middleware.json :refer [wrap-json-response]]
+            [admgame.api.game-api :as game]
+            [admgame.api.login-api :as login]
+            [admgame.middleware.exception-handler :refer [wrap-exception-handling]]
+            [admgame.middleware.authorization-handler :refer [wrap-authorization-handling]]
+            [ring.middleware.json :refer [wrap-json-response
+                                          wrap-json-body]]
             ))
 
 (defn default-handler [request]
@@ -16,10 +20,10 @@
   (GET "/tutor/:id" req (tutor/get-by-id req))
   (PUT "/tutor/:id" req (tutor/save req))
 
-  (GET "/tutor/:tutorid/game" req (default-handler req))
+  (GET "/tutor/:tutorid/game" req (game/list-all-by-tutor req))
   (GET "/tutor/:tutorid/game-dashboard" req (default-handler req))
-  (GET "/tutor/:tutorid/game/:gameid" req (default-handler req))
-  (PUT "/tutor/:tutorid/game/:gameid" req (default-handler req))
+  (GET "/tutor/:tutorid/game/:gameid" req (game/find-by-tutor-and-id req))
+  (PUT "/tutor/:tutorid/game/:gameid" req (game/save-or-update-game req))
 
   (GET "/tutor/:tutorid/game/:gameid/team" req (default-handler req))
   (GET "/tutor/:tutorid/game/:gameid/team/:teamid" req (default-handler req))
@@ -27,7 +31,7 @@
 
 
   ;ACTION ENDPOINTS
-  (POST "/action/login-tutor" req (default-handler req))
+  (POST "/action/login-tutor" req (login/do-tutor-login req))
   (POST "/action/login-team" req (default-handler req))
   (POST "/action/logout" req (default-handler req))
   (POST "/action/buy-product" req (default-handler req))
@@ -46,5 +50,7 @@
                           :status 404)))
 
 (def app (-> app-routes
+             (wrap-json-body {:keywords? true :bigdecimals? true})
              wrap-json-response
+             wrap-authorization-handling
              wrap-exception-handling))

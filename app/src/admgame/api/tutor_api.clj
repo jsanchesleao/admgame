@@ -1,29 +1,20 @@
 (ns admgame.api.tutor-api
   (:require [admgame.model.tutor :as model]
             [cheshire.core :as json]
-            [bouncer.core :as b]
-            [bouncer.validators :as v])
-  (:use [slingshot.slingshot :only [throw+]]))
+            [admgame.api.validation :refer [defvalidator]]
+            [bouncer.validators :as v]))
 
-(defn validate-tutor [data]
-  (b/validate data
-    :username [[v/required :message "username is required"] 
-               [v/string :message "username must be a string"]]
-    :password [[v/required :message "password is required"]
-               [v/string :message "password must be a string"]]
-    :fullname [[v/required :message "fullname is required"]
-               [v/string :message "fullname must be a string"]]))
-
-(defn validate [data]
-  (let [[error _] (validate-tutor data)]
-    (if (nil? error)
-      data
-      (throw+ {:type :validation-error :error error}))))
+(defvalidator validate-tutor
+  :username [[v/required :message "username is required"] 
+             [v/string :message "username must be a string"]]
+  :password [[v/required :message "password is required"]
+             [v/string :message "password must be a string"]]
+  :fullname [[v/required :message "fullname is required"]
+             [v/string :message "fullname must be a string"]])
 
 (defn save [req]
-  (let [raw-body (-> req :body slurp)
-        parsed-body (validate (json/parse-string raw-body true))
-        save-result (model/save-tutor parsed-body)]
+  (let [body (-> req :body validate-tutor)
+        save-result (model/save-tutor body)]
     (case (:status save-result)
       :success {:status 200 :body {:success true}}
       :failure {:status 422 :body {:success false :message (:message save-result)}}

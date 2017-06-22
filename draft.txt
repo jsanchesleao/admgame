@@ -5,6 +5,26 @@ tutor
   "fullname": "Fulano de Tal"
 }
 
+token
+{
+  "string": "randomstring",
+  "owner": {
+    "tutor": "fulano"
+  },
+  "type": "tutor",
+  "expiry": 921873912873
+}
+{
+  "string": "randomstring",
+  "owner": {
+    "tutor": "fulano",
+    "game": "my-first-game",
+    "team": "delta-kappa"
+  },
+  "type": "team",
+  "expiry": 812793712938
+}
+
 game
 {
   "key": "my-first-game",
