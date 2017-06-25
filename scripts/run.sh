@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export MONGO_URI="mongodb://admgame:admgame@ds125262.mlab.com:25262/admgamedev"
+export MONGO_URI="mongodb://localhost:27017/admgamedev"
 
 cd $(dirname $0)
 cd ../app
