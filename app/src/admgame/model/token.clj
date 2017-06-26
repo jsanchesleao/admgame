@@ -59,3 +59,18 @@
       (not= (-> token :owner :tutor) owner) false
       (valid-time? (:expiry token)) (do (refresh-token! token) true)
       :else false)))
+
+(s/defn create-team-token :- Token 
+        [tutor :- s/Str, game-key :- s/Str, team-key :- s/Str]
+  {:string (generate-token-string)
+   :type "team"
+   :expiry (expiry-time)
+   :owner {:tutor tutor
+           :game game-key
+           :team team-key}})
+
+(s/defn emit-team-token :- s/Str 
+        [tutor :- s/Str, game-key :- s/Str, team-key :- s/Str]
+  (let [token (create-team-token tutor game-key team-key)]
+    (db/insert-document token-collection token)
+    (:string token)))

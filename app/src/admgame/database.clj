@@ -17,12 +17,21 @@
 
 (defn insert-document [collection document]
   (mc/insert-and-return (:db @conn) collection document))
-  
-(defn find-one [collection query]
-  (mc/find-one-as-map (:db @conn) collection query))
 
-(defn find-all [collection query]
-  (mc/find-maps (:db @conn) collection query))
+(defn insert [collection document]
+  (mc/insert (:db @conn) collection document))
+  
+(defn find-one 
+  ([collection query]
+    (mc/find-one-as-map (:db @conn) collection query))
+  ([collection query fields]
+    (mc/find-one-as-map (:db @conn) collection query fields)))
+
+(defn find-all 
+  ([collection query]
+    (mc/find-maps (:db @conn) collection query))
+  ([collection query fields]
+    (mc/find-maps (:db @conn) collection query fields)))
 
 (defn update-document [collection query document]
   (mc/update (:db @conn) collection query document {:multi false}))

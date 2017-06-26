@@ -50,3 +50,35 @@
       (not= tutor (:tutor owner)) (throw+ {:type :authorization-error :message "Token owner not authorized"})
       (not (:valid? token))       (throw+ {:type :authorization-error :message "Token expired"})
       :else                       nil)))
+
+(s/defn check-team-auth! :- s/Any
+        [tutor :- s/Str
+         game  :- s/Str
+         team  :- s/Str
+         request :- s/Any]
+  (let [token (-> request :auth :data)
+        type  (-> token :type)
+        owner (-> token :owner)]
+    (cond
+      (nil? token)                (throw+ {:type :authorization-error :message "Authorization header required"})
+      (not= "team" type)          (throw+ {:type :authorization-error :message "Token type not authorized"})
+      (not= tutor (:tutor owner)) (throw+ {:type :authorization-error :message "Token owner not authorized"})
+      (not= game (:game owner))   (throw+ {:type :authorization-error :message "Token game not authorized"})
+      (not= team (:team owner))   (throw+ {:type :authorization-error :message "Token team not authorized"})
+      (not (:valid? token))       (throw+ {:type :authorization-error :message "Token expired"})
+      :else                       nil)))
+
+
+(s/defn check-tutor-or-team-auth! :- s/Any
+        [tutor :- s/Str
+         game  :- s/Str
+         team  :- s/Str
+         request :- s/Any]
+  (let [token (-> request :auth :data)
+        type  (-> token :type)
+        owner (-> token :owner)]
+    (cond
+      (nil? token)     (throw+ {:type :authorization-error :message "Authorization header required"})
+      (= "tutor" type) (check-tutor-auth! tutor request)
+      (= "team" type)  (check-team-auth! tutor game team request)
+      :else            (throw+ {:type :authorization-error :message "Invalid token type"}))))

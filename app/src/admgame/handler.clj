@@ -23,16 +23,16 @@
   (GET "/tutor/:tutorid/game" req (game/list-all-by-tutor req))
   (GET "/tutor/:tutorid/game-dashboard" req (default-handler req))
   (GET "/tutor/:tutorid/game/:gameid" req (game/find-by-tutor-and-id req))
-  (PUT "/tutor/:tutorid/game/:gameid" req (game/save-or-update-game req))
+  (POST "/tutor/:tutorid/game" req (game/create-game req))
 
-  (GET "/tutor/:tutorid/game/:gameid/team" req (default-handler req))
-  (GET "/tutor/:tutorid/game/:gameid/team/:teamid" req (default-handler req))
-  (PUT "/tutor/:tutorid/game/:gameid/team/:teamid" req (default-handler req))
+  (GET "/tutor/:tutorid/game/:gameid/team" req (game/find-teams req))
+  (GET "/tutor/:tutorid/game/:gameid/team/:teamid" req (game/find-team-by-id req))
+  (POST "/tutor/:tutorid/game/:gameid/team" req (game/create-team req))
 
 
   ;ACTION ENDPOINTS
   (POST "/action/login-tutor" req (login/do-tutor-login req))
-  (POST "/action/login-team" req (default-handler req))
+  (POST "/action/login-team" req (login/do-team-login req))
   (POST "/action/logout" req (default-handler req))
   (POST "/action/buy-product" req (default-handler req))
   (POST "/action/buy-wrapper" req (default-handler req))
