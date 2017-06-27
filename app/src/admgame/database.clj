@@ -69,7 +69,9 @@
     (read-data aggregate-id reducer initial-state end-time (java.util.Date. 0)))
   ([aggregate-id reducer initial-state end-time begin-time]
     (let [events (find-events aggregate-id end-time begin-time)]
-      (reduce (fn [state event] (reducer state (:payload event)))  initial-state events))))
+      (reduce (fn [state event]
+                (reducer state (-> event :payload (assoc :time (:time event))))) 
+              initial-state events))))
 
 (defn find-cache [aggregate-id time]
   (first
