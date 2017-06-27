@@ -1,69 +1,102 @@
-tutor
+[
+  "Here is an example of every possible event type processed by the application.",
+  "All events will also have a time field, with the time it was recorded",
 {
-  "username": "fulano",
-  "password": "somehash",
-  "fullname": "Fulano de Tal"
-}
+  "type": "tutor-create-game",
+  "aggregate-id": "/tutor/foo/game",
+  "payload": {
+    "tutor": "foo",
+    "title": "Test Game",
+    "key": "test-game"
+  }
+},
 
-token
 {
-  "string": "randomstring",
-  "owner": {
-    "tutor": "fulano"
-  },
-  "type": "tutor",
-  "expiry": 921873912873
-}
-{
-  "string": "randomstring",
-  "owner": {
-    "tutor": "fulano",
-    "game": "my-first-game",
-    "team": "delta-kappa"
-  },
-  "type": "team",
-  "expiry": 812793712938
-}
+  "type": "create-game",
+  "aggregate-id": "/tutor/foo/game/test-game",
+  "payload": {
+    "tutor": "foo",
+    "title": "Test Game",
+    "key": "test-game"
+  }
+},
 
-game
 {
-  "key": "my-first-game",
-  "title": "My First Game",
-  "startDate": "2017-06-15",
-  "closeDate": null,
-  "tutor": "fulano",
-  "teams": [{
+  "type": "create-team",
+  "aggregate-id": "/tutor/foo/game/test-game",
+  "payload": {
     "key": "delta-kappa",
     "name": "Delta Kappa",
-    "password": "somehash",
-    "stock": {
-      "product": 10,
-      "wrapper": 20
+    "password": "somehashedpasswd"
+  }
+},
+
+{
+  "type": "open-game",
+  "aggregate-id": "/tutor/foo/game/test-game",
+  "payload": {
+    "config": {
+      "cash": 300,
+      "productPrice": 10,
+      "wrapperPrice": 2,
+      "demand": 450
     }
-    "cash": 300
-  }]
+  }
+},
+
+{
+  "type": "team-buy-product",
+  "aggregate-id": "/tutor/foo/game/test-game",
+  "payload": {
+    "team": "delta-kappa",
+    "amount": 20,
+    "offer": 12
+  }
+},
+
+{
+  "type": "team-buy-wrapper",
+  "aggregate-id": "/tutor/foo/game/test-game",
+  "payload": {
+    "team": "delta-kappa",
+    "amount": 10,
+    "offer": 2
+  }
+},
+
+{
+  "type": "team-sell-product",
+  "aggregate-id": "/tutor/foo/game/test-game",
+  "payload": {
+    "team": "delta-kappa",
+    "price": 20
+  }
+},
+
+{
+  "type": "cycle-ended",
+  "aggregate-id": "/tutor/foo/game/test-game",
+  "payload": {
+    
+  }
+},
+
+{
+  "type": "cycle-started",
+  "aggregate-id": "/tutor/foo/game/test-game",
+  "payload": {
+    "config":{
+      "increaseDemand": 10
+    }
+  }
+},
+
+{
+  "type": "game-ended",
+  "aggregate-id": "/tutor/foo/game/test-game",
+  "payload": {
+    
+  }
 }
 
-log
-{
-  "game": "my-first-game",
-  "tutor": "fulano",
-  "actions": [
-    {
-      "type": "GAME_STARTED",
-      "config": {"cash": 300, "productPrice": 10, "wrapperPrice": 2, "demand": 450},
-      "date": "2017-06-15 12:00:00"
-    },
-    {"type": "TEAM_BUY_PRODUCT", "team": "delta-kappa", "amount": 20, "offer": 12, "date": "2017-06-15 12:10:00"},
-    {"type": "TEAM_BUY_WRAPPER", "team": "delta-kappa", "amount": 20, "offer": 5, "date": "2017-06-15 12:11:00"},
-    {"type": "TEAM_SELL_PRODUCT", "team": "delta-kappa", "price": 22, "date": "2017-06-15 12:12:00"},
-    {"type": "CYCLE_ENDED", "date": "2017-06-15 12:00:00"},
-    {
-      "type": "CYCLE_STARTED",
-      "config": {
-        "demandIncrease": 10
-      }
-    },
-    {"type": "GAME_ENDED", "date": "2017-06-15 12:10:00"}
-  ]
-}
+]
