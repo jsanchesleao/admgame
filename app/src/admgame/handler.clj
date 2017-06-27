@@ -33,11 +33,11 @@
   ;ACTION ENDPOINTS
   (POST "/action/login-tutor" req (login/do-tutor-login req))
   (POST "/action/login-team" req (login/do-team-login req))
-  (POST "/action/logout" req (default-handler req))
+  (POST "/action/logout" req (login/do-logout req))
+  (POST "/action/open-game" req (default-handler req))
   (POST "/action/buy-product" req (default-handler req))
   (POST "/action/buy-wrapper" req (default-handler req))
   (POST "/action/sell-product" req (default-handler req))
-  (POST "/action/open-game" req (default-handler req))
   (POST "/action/run-cycle" req (default-handler req))
   (POST "/action/close-game" req (default-handler req))
   

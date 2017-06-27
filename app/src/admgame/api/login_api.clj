@@ -63,3 +63,8 @@
     (if (nil? game-data)
       {:status 404 :body {:message "game not found"}}
       (perform-team-login game-data team password))))
+
+(defn do-logout [req]
+  (let [token (-> req :auth :data)]
+    (token-model/invalidate-token token)
+    {:status 200 :body {:success true}}))

@@ -1,6 +1,7 @@
 (ns admgame.model.token
   (:require [schema.core :as s]
             [crypto.random :as random]
+            [monger.operators :refer [$set]]
             [admgame.database :as db]))
 
 ;Schema Definitions
@@ -74,3 +75,10 @@
   (let [token (create-team-token tutor game-key team-key)]
     (db/insert-document token-collection token)
     (:string token)))
+
+(s/defn invalidate-token :- s/Any
+        [token :- Token]
+  
+  (db/update-document token-collection 
+    {:string (:string token)}
+    {$set {:expiry (current-time)}}))
