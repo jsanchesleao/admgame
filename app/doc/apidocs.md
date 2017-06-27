@@ -206,3 +206,21 @@ It will return a JSON document, like this:
     "token": "somerandomtokenhash"
   }
 ```
+
+## POST /action/logout
+
+Requires an authentication header with a token. It will expire the token and respond the following JSON
+
+```json
+{
+  "sucess": true
+}
+```
+
+If a token is not passed or it's an invalid one, the failure JSON will be sent in response:
+
+```json
+{
+  "sucess": false
+}
+```

@@ -66,5 +66,9 @@
 
 (defn do-logout [req]
   (let [token (-> req :auth :data)]
-    (token-model/invalidate-token token)
-    {:status 200 :body {:success true}}))
+    (cond
+      (nil? (:string token)) {:status 200 :body {:success false}}
+      (not (:valid? token))  {:status 200 :body {:success false}}
+      :else                 (do
+                              (token-model/invalidate-token! token)
+                              {:status 200 :body {:success true}}))))

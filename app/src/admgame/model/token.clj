@@ -76,7 +76,7 @@
     (db/insert-document token-collection token)
     (:string token)))
 
-(s/defn invalidate-token :- s/Any
+(s/defn invalidate-token! :- s/Any
         [token :- Token]
   
   (db/update-document token-collection 
