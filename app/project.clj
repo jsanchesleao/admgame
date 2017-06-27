@@ -14,6 +14,7 @@
                  [slingshot "0.12.2"]
                  [ring/ring-json "0.4.0"]
                  [cheshire "5.7.1"]
+                 [org.clojure/test.check "0.9.0"]
                  [environ "1.1.0"]]
   :plugins [[lein-environ "1.1.0"]]
   :main ^:skip-aot admgame.core
