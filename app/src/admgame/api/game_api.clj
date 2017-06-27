@@ -3,7 +3,7 @@
             [admgame.api.validation :refer [defvalidator]]
             [bouncer.validators :as v]
             [admgame.middleware.authorization-handler :refer [check-tutor-auth! check-tutor-or-team-auth!]]
-            [admgame.model.game :as game]))
+            [admgame.model.game-es :as game]))
 
 (defvalidator validate-game-creation-request
   :title  [[v/required :message "title is required"]

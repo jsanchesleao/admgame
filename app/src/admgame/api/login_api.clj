@@ -1,7 +1,7 @@
 (ns admgame.api.login-api
   (:require [admgame.api.validation :refer [defvalidator]]
             [admgame.model.tutor :as tutor-model]
-            [admgame.model.game :as game-model]
+            [admgame.model.game-es :as game-model]
             [admgame.model.token :as token-model]
             [admgame.cryptography :as crypto]
             [bouncer.validators :as v]))
