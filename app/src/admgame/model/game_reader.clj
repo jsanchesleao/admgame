@@ -8,10 +8,12 @@
 (defn game-reducer [state event]
   (case (:type event)
     "create-game" (let [{:keys [tutor title key]} event]
-                    {:key key
-                     :title title
-                     :tutor tutor
-                     :teams []})
+                    (if (nil? state)
+                      {:key key
+                       :title title
+                       :tutor tutor
+                       :teams []}
+                      state))
 
     "create-team" (let [{:keys [key name password]} event]
                     (update state :teams conj {:key key
